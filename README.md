@@ -1,3 +1,48 @@
+# Solution to the Challenge
+
+The application GitHub repo was forked to my GitHub repo (https://github.com/parunparun/timeoff-management-application). 
+
+A feature branch (nodejs-fix-elasticbeanstalk) was created for fixing issues found during deployment. File changed and added were - 
+
+.npmrc - unsafe-perm=true was added to make it work with Nodejs version 14. The application still fails with Nodejs version 16. Further investigation is needed.
+.ebextensions/alb-http-to-https-redirection-full.config - This adds 443 listener to the Load Balancer as well as HTTP to HTTPS redirection.
+
+The application was deployed to an Elastic BeanStalk HA environment running Nodejs version 14 thus creating a Load Balancer as well as an Auto-Scaling group.
+
+CodePipeline was used to fully automate the deployment to the Elastic BeanStalk evironment. 
+
+After deployment I was able to be navigate to the home page of the application.
+
+** Issues faced during deployment - **
+
+Prior to deploying it to the Elastic BeanStalk environment I tried deploying it to an EC2 instance and verified whether the application starts.
+
+Following command needed to be executed in the EC2 instance 
+
+```bash
+sudo yum install -y gcc-c++ make git
+git clone https://github.com/parunparun/timeoff-management-application.git
+curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash -
+sudo yum install -y nodejs
+cd timeoff-management-application
+.npmrc file modified
+npm install - 
+npm start
+```
+The above action resulted in the application listening at port 3000. curl http://localhost:3000 returned success.
+
+Using AWS Certificate Manager a public certificate was created so that while creating a Load Balancer listener on port 443 the certificate can be provided.
+
+To make BeanStalk listen to HTTPS request and redirect HTTP to HTTPS I had to add the file alb-http-to-https-redirection-full.config to the .ebextensions folder.
+
+** Improvement ** -
+
+Both code pipeline and BeanStalk were created manually.
+
+For creating the code pipeline a BeanStalk environment already needs to be stood up.
+
+Creation of both the code pipeline and the BeanStalk could have been automated using CloudFormation or Terraform.
+
 
 # TimeOff.Management
 
