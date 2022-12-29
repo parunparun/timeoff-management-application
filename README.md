@@ -13,7 +13,7 @@ CodePipeline was used to fully automate the deployment to the Elastic BeanStalk 
 
 After deployment I was able to be navigate to the home page of the application.
 
-** Issues faced during deployment - **
+**Issues faced during deployment -**
 
 Prior to deploying it to the Elastic BeanStalk environment I tried deploying it to an EC2 instance and verified whether the application starts.
 
@@ -35,7 +35,7 @@ Using AWS Certificate Manager a public certificate was created so that while cre
 
 To make BeanStalk listen to HTTPS request and redirect HTTP to HTTPS I had to add the file alb-http-to-https-redirection-full.config to the .ebextensions folder.
 
-** Improvement ** -
+**Improvement -**
 
 Both code pipeline and BeanStalk were created manually.
 
